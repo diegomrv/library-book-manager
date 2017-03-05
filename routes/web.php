@@ -13,4 +13,8 @@
 
 Auth::routes();
 
-Route::get('/', 'AdminController@index');
+Route::group(['middleware' => ['auth']], function(){
+
+	Route::get('/', 		'AdminController@index');
+	Route::resource('book',	'BookController');
+});
