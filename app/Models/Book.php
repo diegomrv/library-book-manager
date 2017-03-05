@@ -13,4 +13,13 @@ class Book extends Model
     {
     	return $this->belongsTo('App\Category');
     }
+
+
+    /**
+     * User borrowed a book
+    **/
+    public function user()
+    {
+    	return $this->belongsTo('App\User');
+    }
 }
