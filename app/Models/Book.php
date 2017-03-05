@@ -8,6 +8,8 @@ class Book extends Model
 {
 	protected $dates = ['published_date'];
 
+	protected $fillable = ['name', 'author', 'published_date', 'category_id'];
+
     /**
      * Category of a book
     **/

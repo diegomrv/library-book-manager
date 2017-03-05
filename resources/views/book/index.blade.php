@@ -39,12 +39,12 @@
 								<td>{{ $item->category->name }}</td>
 								<td>{{ $item->published_date->formatLocalized('%m/%d/%Y') }}</td>
 								<td class="text-center">{{ isset($item->user)? 'No' : 'Yes' }}</td>
-								<td class="text-center"><span class="glyphicon glyphicon-edit"></span></td>
+								<td class="text-center"><a href="{{ route('book.edit', $item->id) }}"><span class="glyphicon glyphicon-edit"></span></a></td>
 								<td class="text-center">
 									<form class="delete-form" action="{{ route('book.destroy', $item->id) }}" method="POST">
-										{!! method_field('DELETE') !!}
-										{!! csrf_field() !!}
-										<button type="submit"><span class="glyphicon glyphicon-trash"></span></button>
+										{{ method_field('delete') }}
+										{{ csrf_field() }}
+										<button type="submit"><span class="glyphicon glyphicon-trash text-primary"></span></button>
 									</form>
 								</td>
 							</tr>

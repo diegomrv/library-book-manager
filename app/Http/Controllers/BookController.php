@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Book;
+use App\Category;
 use DB;
 
 class BookController extends Controller
@@ -30,7 +31,11 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $args = [
+            'categories' => Category::all()
+        ];
+
+        return view('book/create', $args);
     }
 
     /**
@@ -41,7 +46,22 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string',
+            'author' => 'required|string',
+            'published_date' => 'required|date',
+            'category_id' => 'required'
+        ]);
+
+        $fields = $request->only(['name', 'author', 'category_id']);
+
+        $date_parts = explode('/', $request->input('published_date'));
+        $fields['published_date'] = $date_parts[2].'-'.$date_parts[0].'-'.$date_parts[1];
+
+        Book::create($fields);
+
+        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The book was successfully created']);
+        return redirect(route('book.index'));
     }
 
     /**
@@ -63,7 +83,12 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $args = [
+            'categories' => Category::all(),
+            'item' => Book::find($id)
+        ];
+
+        return view('book/edit', $args);
     }
 
     /**
@@ -75,7 +100,24 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string',
+            'author' => 'required|string',
+            'published_date' => 'required|date',
+            'category_id' => 'required'
+        ]);
+
+        $fields = $request->only(['name', 'author', 'category_id']);
+
+        $date_parts = explode('/', $request->input('published_date'));
+        $fields['published_date'] = $date_parts[2].'-'.$date_parts[0].'-'.$date_parts[1];
+
+        $book = Book::find($id);
+        $book->fill($fields);
+        $book->save();
+
+        $request->session()->flash('msg', ['type' => 'success', 'text' => 'The book was successfully updated']);
+        return redirect(route('book.index'));
     }
 
     /**
