@@ -8,7 +8,10 @@
 				<div class="panel-heading">Dashboard</div>
 
 				<div class="panel-body">
-					You are logged in!
+					<p>Welcome! You can do the following:</p>
+					<ul>
+						<li><a href="{{ route('book.index') }}">Manage books</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
