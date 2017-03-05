@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
+	protected $dates = ['published_date'];
+
     /**
      * Category of a book
     **/
