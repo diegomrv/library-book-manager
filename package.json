@@ -11,11 +11,13 @@
   },
   "devDependencies": {
     "axios": "^0.15.3",
+    "bootstrap-3-typeahead": "^4.0.2",
     "bootstrap-datepicker": "^1.6.4",
     "bootstrap-sass": "^3.3.7",
     "jquery": "^3.1.1",
     "laravel-mix": "^0.8.1",
     "lodash": "^4.17.4",
+    "select2": "^4.0.3",
     "vue": "^2.1.10"
   }
 }

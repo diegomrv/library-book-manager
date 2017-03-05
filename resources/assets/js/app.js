@@ -7,7 +7,9 @@
 
 require('./bootstrap');
 require('bootstrap-datepicker');
+require('select2');
 
 $(document).ready(function(){
 
+	$('.category-dropdown').select2();
 });

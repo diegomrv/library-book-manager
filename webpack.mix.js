@@ -13,4 +13,8 @@ const { mix } = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css')
-   .styles('node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css', 'public/css/datepicker.css');
+   .combine([
+   		'public/css/app.css', 
+   		'node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css', 
+   		'node_modules/select2/dist/css/select2.min.css'
+   	], 'public/css/app.css');
