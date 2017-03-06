@@ -44,12 +44,11 @@ $(document).ready(function(){
 				confirm_btn.parents('#change-status').modal('hide');
 
 				if(data.type == 'borrow'){
-					$('.is-available-'+confirm_btn.data('bookid')).html('<a data-toggle="modal" data-target="#change-status" data-book="'+data.book+'"><span data-toggle="tooltip" data-placement="top" title="'+data.user_name+'">No</span></a>');	
+					$('.is-available-'+confirm_btn.data('bookid')).html("<a data-toggle='modal' data-target='#change-status' data-book='"+JSON.stringify(data.book)+"'><span data-toggle='tooltip' data-placement='top' title='"+data.user_name+"'>No</span></a>");	
 				}else{
-					$('.is-available-'+confirm_btn.data('bookid')).html('<span data-toggle="modal" data-target="#change-status" data-book="'+data.book+'">Yes</span>');
+					$('.is-available-'+confirm_btn.data('bookid')).html("<span data-toggle='modal' data-target='#change-status' data-book='"+JSON.stringify(data.book)+"'>Yes</span>");
 				}
 
-				
 				initialize_tooltips();
 			}
 		});
