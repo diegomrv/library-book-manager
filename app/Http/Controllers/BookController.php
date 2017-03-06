@@ -15,10 +15,44 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        DB::enableQueryLog();
+        $filters = [];
+        if($request->has('filters')) {
+
+            //Initialize query builder this way so results are a Book object, not PHP StdClass
+            $book_query = Book::setQuery(DB::table('books'));
+            if($request->has('search')){
+
+                $book_query->where(function ($query) use ($request) {
+					$query->where('name', 'like', '%'.$request->input('search').'%')
+						->orWhere('author', 'like', '%'.$request->input('search').'%');
+				});
+                $filters['search'] = $request->input('search');
+            }
+            if($request->has('category_id')){
+                
+                $book_query->where('category_id', $request->input('category_id'));
+                $filters['category_id'] = $request->input('category_id');
+            }
+            if($request->has('available')){
+                
+                $book_query->whereNull('user_id');
+                $filters['available'] = $request->input('available');
+            }
+
+            $book_list = $book_query->paginate(10);
+            $book_list->appends($request->except('page')); //Append query string in pagination
+
+        }else{
+            $book_list = Book::paginate(10);
+        }
+
         $args = [
-            'list_items' => Book::paginate(10)
+            'list_items' => $book_list,
+            'categories' => Category::all(),
+            'filters' => $filters
         ];
 
         return view('book/index', $args);

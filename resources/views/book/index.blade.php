@@ -17,7 +17,32 @@
 						<div class="col-md-6 text-right"><a href="{{ route('book.create') }}" class="btn btn-default">New book</a></div>
 					</div>
 				</div>
-
+				<div class="panel-heading">
+					<form class="form-inline" action="{{ route('book.index') }}" method="get">
+						<div class="form-group">
+							<input type="text" class="form-control" id="search" name="search" placeholder="Search Name/Author" value="{{ $filters['search'] or '' }}">
+						</div>
+						<div class="form-group">
+							<select id="category_id" name="category_id" class="form-control category-dropdown">
+								<option value="">Select category</option>
+								@foreach ($categories as $category)
+								<option value="{{ $category->id }}" {{ (isset($filters['category_id']) && $filters['category_id'] == $category->id)? 'selected' : '' }} >{{ $category->name }}</option>
+								@endforeach
+							</select>
+						</div>
+						<div class="checkbox">
+							<label>
+								<input name="available" type="checkbox" value="1" {{ isset($filters['available'])? 'checked' : '' }} > Just show availables
+							</label>
+						</div>
+						{{ csrf_field() }}
+						<input type="hidden" name="filters" value="true">
+						<button type="submit" class="btn btn-default">Filter</button>
+						@if(!empty($filters))
+							<a href="{{ route('book.index') }}" title="Cancel filters" class="btn btn-primary">Cancel filters</a>
+						@endif
+					</form>
+				</div>
 				<div class="panel-body">
 					<table class="table">
 						<thead>
