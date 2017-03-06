@@ -17,3 +17,11 @@ form.delete-form{
 		outline: none;
 	}
 }
+
+span{
+	&[data-toggle="tooltip"], &[data-toggle="modal"]{
+		font-weight: bold;
+		cursor: pointer;
+		color: $brand-primary;
+	}
+}

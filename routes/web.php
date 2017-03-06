@@ -15,6 +15,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function(){
 
-	Route::get('/', 		'AdminController@index');
-	Route::resource('book',	'BookController');
+	Route::get('/', 						'AdminController@index');
+	Route::resource('book',					'BookController');
+	Route::post('book/{id}/borrow_book',	'BookController@borrow_book');
 });

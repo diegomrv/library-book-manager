@@ -38,7 +38,13 @@
 								<td>{{ $item->author }}</td>
 								<td>{{ $item->category->name }}</td>
 								<td>{{ $item->published_date->formatLocalized('%m/%d/%Y') }}</td>
-								<td class="text-center">{{ isset($item->user)? 'No' : 'Yes' }}</td>
+								<td class="text-center is-available-{{ $item->id }}">
+									@if(isset($item->user))
+										<a data-toggle="modal" data-target="#change-status" data-book="{{ $item->toJson() }}"><span data-toggle="tooltip" data-placement="top" title="{{ $item->user->name }}">No</span></a>
+									@else
+										<span data-toggle="modal" data-target="#change-status" data-book="{{ $item->toJson() }}">Yes</span>
+									@endif
+								</td>
 								<td class="text-center"><a href="{{ route('book.edit', $item->id) }}"><span class="glyphicon glyphicon-edit"></span></a></td>
 								<td class="text-center">
 									<form class="delete-form" action="{{ route('book.destroy', $item->id) }}" method="POST">
@@ -58,4 +64,26 @@
 		</div>
 	</div>
 </div>
+
+{{-- Book lending modal --}}
+<div id="change-status" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4></h4>
+			</div>
+			<div class="modal-body">
+				<p>Please confirm that you wish to <span class="verb">borrow</span>:</p>
+				<h3 class="book_name"></h3> 
+				<p>by</p>
+				<h4 class="book_author"></h4>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary confirm" data-bookid="0">Confirm</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 @endsection

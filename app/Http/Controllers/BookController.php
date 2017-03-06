@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Book;
 use App\Category;
-use DB;
+use Auth, DB;
 
 class BookController extends Controller
 {
@@ -143,5 +143,28 @@ class BookController extends Controller
 
         DB::commit();
         return redirect(route('book.index'));
+    }
+
+    /**
+     * Update user that borrowed the book
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function borrow_book(Request $request, $id)
+    {
+        $book = Book::find($id);
+        
+        if($book->user){
+            $book->user()->dissociate();
+            $type = 'deliver';
+        }else{
+            $book->user()->associate(Auth::user());
+            $type = 'borrow';
+        }
+
+        $book->save();
+
+        return response()->json(['type' => $type, 'user_name' => Auth::user()->name, 'book' => $book]);
     }
 }
